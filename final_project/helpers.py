@@ -10,7 +10,7 @@ def getLocation(location):
     #Contact Google Geocoding API
     try:
         # print(location)
-        api_key = 'AIzaSyAh2Dg090ANTXwZhHqGKE1K7Pa25iDB8vs'
+        api_key = 'API KEY NEEDED'
         response = requests.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={urllib.parse.quote(location)}&key={api_key}")
         response.raise_for_status()
     except requests.RequestException:
@@ -34,7 +34,7 @@ def getCurrentWeather(lat, lon):
 
     #Contact API
     try:
-        api_key = 'e2726fffd273704862fcc263496db4b3'
+        api_key = 'API KEY NEEDED'
         response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units=imperial&appid=e2726fffd273704862fcc263496db4b3")
         response.raise_for_status()
     except request.RequestExecption:
@@ -58,7 +58,7 @@ def darkSkies(lat, lon):
 
     # Contact API
     try:
-        api_key = '3bbf9ae79fefa463e8b0e007af4c34a3'
+        api_key = 'API KEY NEEDED'
         response = requests.get(f"https://api.darksky.net/forecast/{api_key}/{lat},{lon}")
         response.raise_for_status()
     except request.ResquestExecption:
