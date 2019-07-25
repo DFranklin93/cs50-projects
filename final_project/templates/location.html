@@ -1,0 +1,137 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Location
+{% endblock %}
+{% block main %}
+    <h1 class="text-center pb-1" style="padding-top: 2vw;">{{ location[0]['place']['formatted_address'] }}</h1>
+    <div class="underline" style="border-bottom: 1px solid #aaa; width: 50%; margin: 0 auto 1vw auto;"></div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="today-tab" data-toggle="tab" href="#today" role="tab" aria-controls="today" aria-selected="true">Today</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="hourly-tab" data-toggle="tab" href="#hourly" role="tab" aria-controls="hourly" aria-selected="false">Hourly</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="week-tab" data-toggle="tab" href="#week" role="tab" aria-controls="contact" aria-selected="false">7 Day</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="today" role="tabpanel" aria-labelledby="today-tab">
+            <div class="tab-body" style="text-align: center; background: #fff; border: 1px solid #dee2e6; border-top-width: 1px; border-top-width: 0;">
+              <div class="row">
+                <div class="col-sm-6" style="padding: 4vw;">
+                  <div class="card bg-light">
+                    <div class="card-body">
+                      <h4 class="card-title">
+                        {{ location[0]['place']['address_components'][0]['long_name'] }}
+                      </h4>
+                      <div class="row">
+                        <div class="col" style="padding: 1vw 0;">
+                          <div class="currentTemp" style="padding: .5vw 0;">
+                            {{ location[0]['current_weather']['weather_details']['temp'] }}&deg;
+                          </div>
+                          <div class="descript" style="padding: .5vw 0;">
+                            {{ location[0]['dark_skies']['currently']['summary'] }}
+                          </div>
+                          <div class="hiLow" style="padding: .5vw 0;">
+                            H {{ location[0]['current_weather']['weather_details']['temp_max'] | round | int }}&deg; / L {{ location[0]['current_weather']['weather_details']['temp_min'] | round | int }}&deg;
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="weatherImg" style="padding: 2vw 0;">
+                            <canvas style="display: inline-block;" class="{{ location[0]['dark_skies']['currently']['icon'] }}" width="80" height="80"></canvas>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" style="padding: 6vw 4vw;">
+                  <ul class="list-group list-group-flush bg-light">
+                    <li class="list-group-item">
+                      Wind: {{ location[0]['current_weather']['wind']['speed'] }} mph @ {{ location[0]['current_weather']['wind']['deg'] }} &deg;
+                    </li>
+                    <li class="list-group-item">
+                      Humidity: {{ location[0]['current_weather']['weather_details']['humidity'] }} %
+                    </li>
+                    <li class="list-group-item">
+                      Pressure: {{ ((location[0]['current_weather']['weather_details']['pressure']) / 33.864 )| round(2) }} in
+                    </li>
+                    <li class="list-group-item">
+                      Visibility: {{ ((location[0]['current_weather']['visibility']) / 1609.344 ) | round(2)  }} mi
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+        </div>
+      <div class="tab-pane fade" id="hourly" role="tabpanel" aria-labelledby="hourly-tab">
+        <div class="container align-items-center" style="background: #fff; border: 1px solid #dee2e6; border-top-width: 1px; border-top-width: 0; margin-bottom: 1vw; padding: 0;">
+          <table class="table">
+            <thead class="thead" style="background: #242939 !important; color: #fff;">
+              <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Description</th>
+                <th scope="col">Temperature</th>
+                <th scope="col">Humidity</th>
+                <th scope="col">Pressure</th>
+                <th scope="col">Visibility</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for locations in location %}
+              {% for i in range(locations['dark_skies']['hourly']['data']|length) %}
+              <tr>
+                <th scope="row" style="vertical-align: middle;">{{ locations['dark_skies']['hourly']['data'][i]['date'] }}  {{ locations['dark_skies']['hourly']['data'][i]['time'] }}</th>
+                <td style="display: flex; align-items: center;">
+                  <canvas style="display: inline-block; padding-right: .5vw;" class="{{ locations['dark_skies']['hourly']['data'][i]['icon'] }}" width="40" height="40"></canvas>
+                  <div style="display: inline-block">{{ locations['dark_skies']['hourly']['data'][i]['summary'] }}</div>
+                </td>
+                <td style="vertical-align: middle;">{{ locations['dark_skies']['hourly']['data'][i]['temperature']}}&deg;</td>
+                <td style="vertical-align: middle;">{{ ((locations['dark_skies']['hourly']['data'][i]['humidity'])*100) | round(2) }}%</td>
+                <td style="vertical-align: middle;">{{ ((locations['dark_skies']['hourly']['data'][i]['pressure']) / 33.864 )| round(2) }}</td>
+                <td style="vertical-align: middle;">{{ locations['dark_skies']['hourly']['data'][i]['visibility'] }}</td>
+              </tr>
+              {% endfor %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="week" role="tabpanel" aria-labelledby="week-tab">
+        <div class="container align-items-center" style="background: #fff; border: 1px solid #dee2e6; border-top-width: 1px; border-top-width: 0; margin-bottom: 1vw; padding: 0;">
+          <table class="table">
+            <thead class="thead" style="background: #242939 !important; color: #fff;">
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Hi/Low</th>
+                <th scope="col">Humidity</th>
+                <th scope="col">Pressure</th>
+                <th scope="col">Visibility</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for locations in location %}
+              {% for i in range(locations['dark_skies']['daily']['data']|length) %}
+              <tr>
+                <th scope="row" style="vertical-align: middle;">{{ locations['dark_skies']['daily']['data'][i]['date'] }}</th>
+               <td style="display: flex; align-items: center;">
+                  <canvas style="display: inline-block; padding-right: .5vw;" class="{{ locations['dark_skies']['daily']['data'][i]['icon'] }}" width="40" height="40"></canvas>
+                  <div style="display: inline-block">{{ locations['dark_skies']['daily']['data'][i]['summary'] }}</div>
+                </td>
+                <td style="vertical-align: middle;">{{ locations['dark_skies']['daily']['data'][i]['temperatureMax']}}&deg; /  {{ locations['dark_skies']['daily']['data'][i]['temperatureMin']}}&deg;</td>
+                <td style="vertical-align: middle;">{{ ((locations['dark_skies']['daily']['data'][i]['humidity'])*100) | round(2) }}%</td>
+                <td style="vertical-align: middle;">{{ ((locations['dark_skies']['daily']['data'][i]['pressure']) / 33.864 )| round(2) }}</td>
+                <td style="vertical-align: middle;">{{ locations['dark_skies']['daily']['data'][i]['visibility'] }}</td>
+              </tr>
+              {% endfor %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+{% endblock %}

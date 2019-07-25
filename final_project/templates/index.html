@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <div class="row" style="align-items: center; padding-top: 2vw;">
+      <div class="col">
+        <div class="cards" style="display: inline-block; text-align: center;">
+        {% for location in locations %}
+          <a href="/location/{{location['place']['formatted_address']}}" style="text-decoration: none;">
+          <div class="card btn btn-outline-dark" style="width: 18rem; display: block; margin: .5vw">
+            <div class="card-body">
+              <h5 class="card-title" style="display: flex; align-items: center; justify-content: center;">
+                {{ location['place']['formatted_address'] }}
+                <canvas style="display: inline-block;" class="{{ location['dark_skies']['currently']['icon'] }}" width="40" height="40"></canvas>
+              </h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ location['current_weather']['weather_details']['temp_max'] | round | int }}&deg; H</h6>
+              <h6 class="card-subtitle mb-2 text-muted">{{ location['current_weather']['weather_details']['temp_min'] | round | int }}&deg; L</h6>
+              <p class="card-text">{{ location['dark_skies']['currently']['summary'] | title }}</p>
+            </div>
+          </div>
+          </a>
+      {% endfor %}
+        </div>
+      </div>
+      <div class="col">
+        <div style="display: inline-block;">
+          <img src="https://icons.wxug.com/data/weather-maps/radar/united-states/united-states-current-radar-animation.gif" alt="" style="width: 45vw">
+        </div>
+      </div>
+    </div>
+{% endblock %}

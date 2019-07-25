@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <form action="/compare" enctype="multipart/form-data" method="post">
+                    <div class="form-group">
+                        <input type="file" name="file1" class="form-control-file" />    
+                    </div>
+                    <div class="form-group">
+                        <input type="file" name="file2" class="form-control-file" />
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label" for="lines">
+                                <input type="radio" class="form-check-input" name="algorithm" value="lines">
+                                Lines
+                            </label>
+                        </div>    
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label" for="sentences">
+                                <input type="radio" class="form-check-input" name="algorithm" value="sentences">
+                                Sentences
+                            </label>
+                        </div>    
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label" for="substrings">
+                                <input type="radio" class="form-check-input" id="algorithm_substrings" name="algorithm" value="substrings">
+                                Substrings
+                                <input class="form-control form-control-sm" min="1" name="length" placeholder="of length n" type="number">
+                            </label>
+                        </div>    
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" value="Compare" class="btn btn-outline-info">Compare</button>
+                    </div>
+                </form>
+            </div> 
+        </div>
+    </div>
+    
+
+{% endblock %}

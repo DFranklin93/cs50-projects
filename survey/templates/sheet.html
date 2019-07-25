@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<form action="/sheet" method="get" style="text-align: center">
+  <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">House</th>
+      <th scope="col">Position</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for s in student %}
+    <tr>
+      <td>{{ s[0] }}</td>
+      <td>{{ s[1] }}</td>
+      <td>{{ s[2] }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</form>
+
+<script>
+  
+</script>
+{% endblock %}

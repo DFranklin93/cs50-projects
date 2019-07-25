@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+{% block main %}
+<form action="/buy" method="post">
+    <div class="form-group">
+        <input autocomplete="off" autofocus="" class="form-control" id="symbol" name="symbol" placeholder="Symbol" type="text">
+    </div>
+    <div class="form-group">
+        <input autocomplete="off" class="form-control" min="1" id="shares" name="shares" placeholder="Shares" type="number">
+    </div>
+    <button class="btn btn-primary" type="submit">Buy</button>
+</form>
+
+<script>
+    $(document).ready(()=>{
+        const symbol = $('#symbol'),
+              shareCount = $('#shares');
+
+        $(document).submit(()=>{
+            if (symbol.val() == 0){
+                alert("A symbol must be entered");
+                return false;
+            }
+            if (shareCount.val() <= 0){
+                alert("Missing Shares");
+                return false;
+            }
+        })
+    })
+</script>
+{% endblock %}
